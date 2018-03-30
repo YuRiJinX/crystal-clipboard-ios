@@ -14,7 +14,7 @@ class APIProvider: MoyaProvider<CrystalClipboardAPI> {
     // MARK: Internal MoyaProvider overridden initializers
     
     override init(endpointClosure: @escaping EndpointClosure = MoyaProvider.defaultEndpointMapping,
-         requestClosure: @escaping RequestClosure = MoyaProvider.defaultRequestMapping,
+         requestClosure: @escaping RequestClosure = APIProvider.defaultRequestMapping,
          stubClosure: @escaping StubClosure = MoyaProvider.neverStub,
          callbackQueue: DispatchQueue? = nil,
          manager: Manager? = nil,

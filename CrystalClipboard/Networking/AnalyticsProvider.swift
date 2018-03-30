@@ -13,7 +13,7 @@ class AnalyticsProvider: MoyaProvider<AnalyticsTarget> {
     // MARK: Internal MoyaProvider overridden initializers
     
     override init(endpointClosure: @escaping EndpointClosure = MoyaProvider.defaultEndpointMapping,
-                  requestClosure: @escaping RequestClosure = MoyaProvider.defaultRequestMapping,
+                  requestClosure: @escaping RequestClosure = AnalyticsProvider.defaultRequestMapping,
                   stubClosure: @escaping StubClosure = MoyaProvider.neverStub,
                   callbackQueue: DispatchQueue? = nil,
                   manager: Manager? = nil,

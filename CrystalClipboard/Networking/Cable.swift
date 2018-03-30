@@ -111,11 +111,12 @@ class Cable {
     // MARK: Internal initializers
     
     init(url: URL, origin: String?, token: String?) {
-        socket = WebSocket(url: url)
+        var request = URLRequest(url: url)
         if let token = token {
-            socket.headers["Authorization"] = "Bearer " + token
+            request.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
         }
-        socket.origin = origin
+        request.setValue(origin, forHTTPHeaderField: "Origin")
+        socket = WebSocket(request: request)
         socket.delegate = self
         socket.callbackQueue = Cable.queue
         socket.security = SSLSecurity(usePublicKeys: true)
@@ -185,11 +186,11 @@ extension Cable: WebSocketDelegate {
     
     // MARK: WebSocketDelegate internal methods
     
-    func websocketDidConnect(socket: WebSocket) {
+    func websocketDidConnect(socket: WebSocketClient) {
         connectionInput?.send(value: .connected)
     }
     
-    func websocketDidDisconnect(socket: WebSocket, error: NSError?) {
+    func websocketDidDisconnect(socket: WebSocketClient, error: Swift.Error?) {
         if let error = error {
             for channelObserver in channelInputs.values {
                 channelObserver.send(error: ChannelError.cableDisconnected)
@@ -200,7 +201,7 @@ extension Cable: WebSocketDelegate {
         }
     }
     
-    func websocketDidReceiveMessage(socket: WebSocket, text: String) {
+    func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
         guard let data = text.data(using: .utf8) else { fatalError("Text should be a UTF8 string") }
         guard let deserializedData = try? JSONSerialization.jsonObject(with: data) else { fatalError("Text should be valid JSON") }
         guard let dictionary = deserializedData as? [String: Any] else { fatalError("Should be a dictionary") }
@@ -212,7 +213,7 @@ extension Cable: WebSocketDelegate {
         }
     }
     
-    func websocketDidReceiveData(socket: WebSocket, data: Data) {
+    func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
         // Socket should only receive text and not binary data
     }
 }

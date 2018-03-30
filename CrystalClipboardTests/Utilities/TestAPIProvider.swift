@@ -15,15 +15,15 @@ class TestAPIProvider: APIProvider {
     
     required init(testRemoteData: TestRemoteData,
                   online: Bool = true,
-                  requestClosure: @escaping RequestClosure = MoyaProvider.defaultRequestMapping,
+                  requestClosure: @escaping RequestClosure = TestAPIProvider.defaultRequestMapping,
                   stubClosure: @escaping StubClosure = MoyaProvider.immediatelyStub,
                   callbackQueue: DispatchQueue? = nil,
                   manager: Manager = MoyaProvider<Target>.defaultAlamofireManager(),
                   plugins: [PluginType] = [],
                   trackInflights: Bool = false) {
         
-        let endpointClosure = { (target: CrystalClipboardAPI) -> Endpoint<CrystalClipboardAPI> in
-            let sampleResponseClosure: Endpoint<CrystalClipboardAPI>.SampleResponseClosure = {
+        let endpointClosure = { (target: CrystalClipboardAPI) -> Endpoint in
+            let sampleResponseClosure: Endpoint.SampleResponseClosure = {
                 if online {
                     return target.sampleResponse(testRemoteData: testRemoteData)
                 } else {
@@ -35,10 +35,12 @@ class TestAPIProvider: APIProvider {
                     return .networkError(error)
                 }
             }
-            return Endpoint<CrystalClipboardAPI>(
+            return Endpoint(
                 url: URL(target: target).absoluteString,
                 sampleResponseClosure: sampleResponseClosure,
-                task: target.task
+                method: target.method,
+                task: target.task,
+                httpHeaderFields: target.headers
             )
         }
         
