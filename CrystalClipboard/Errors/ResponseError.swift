@@ -9,14 +9,14 @@
 import Foundation
 import class Moya.Response
 
-struct RemoteError: Error, Codable {
+struct RemoteError: Error, Codable, Equatable {
     
     // MARK: Internal stored properties
     
     let message: String
 }
 
-struct RemoteErrors: Error, Codable {
+struct RemoteErrors: Error, Codable, Equatable {
     
     // MARK: Internal stored properties
     

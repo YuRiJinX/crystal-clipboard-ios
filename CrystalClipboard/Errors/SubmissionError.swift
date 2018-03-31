@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct SubmissionError: Error {
+struct SubmissionError: Error, Equatable {
     
     // MARK: Internal stored properties
     
