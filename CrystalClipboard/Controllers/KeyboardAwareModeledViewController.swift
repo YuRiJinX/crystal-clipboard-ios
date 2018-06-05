@@ -23,9 +23,9 @@ class KeyboardAwareModeledViewController<VM: ViewModelType>: ModeledViewControll
         super.viewDidLoad()
 
         let keyboardHeightChanges = NotificationCenter.default.reactive
-            .notifications(forName: .UIKeyboardDidChangeFrame)
+            .notifications(forName: UIResponder.keyboardDidChangeFrameNotification)
             .take(during: reactive.lifetime)
-            .map { ($0.userInfo?[UIKeyboardFrameEndUserInfoKey] as? CGRect)?.height ?? 0 }
+            .map { ($0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect)?.height ?? 0 }
         
         scrollView.reactive.contentInsetBottom <~ keyboardHeightChanges
     }

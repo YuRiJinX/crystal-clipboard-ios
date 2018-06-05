@@ -29,7 +29,7 @@ class ModeledViewController<VM: ViewModelType>: UIViewController, ViewModelSetta
         }
         
         if
-            var target = (segue.destination as? _ViewModelSettable) ?? segue.destination.childViewControllers.first as? _ViewModelSettable,
+            var target = (segue.destination as? _ViewModelSettable) ?? segue.destination.children.first as? _ViewModelSettable,
             let destinationViewModel = (viewModel as? SegueingViewModel)?.viewModel(segueIdentifier: segueIdentifier) {
             // not checking `destination.viewModelType == type(of: destinationViewModel)` because
             // inheritance breaks `==` for types and `is` doesn't work for a type defined at runtime

@@ -33,7 +33,7 @@ class ClipsViewController: ModeledViewController<ClipsViewModel>, UITableViewDel
         let pageWillAppear = reactive.trigger(for: #selector(UIViewController.viewWillAppear(_:)))
             .map { [unowned self] in self.pageScrolledTo.value }
         let pageWillEnterForeground = NotificationCenter.default.reactive
-            .notifications(forName: .UIApplicationWillEnterForeground)
+            .notifications(forName: UIApplication.willEnterForegroundNotification)
             .take(during: reactive.lifetime)
             .map { [unowned self] _ in self.pageScrolledTo.value }
         let pageWasScrolledTo = pageScrolledTo.signal.skip(first: 1).skipRepeats()

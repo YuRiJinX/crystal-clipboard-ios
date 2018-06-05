@@ -20,7 +20,7 @@ extension AppDelegate: UIApplicationDelegate {
     
     // MARK: UIApplicationDelegate internal methods
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window?.tintColor = UIColor.crystalClipboardPurple
         return true
     }

@@ -25,8 +25,8 @@ class RootViewController: UIViewController {
     
     // MARK: UIViewController internal overridden computed properties
     
-    override var childViewControllerForStatusBarStyle: UIViewController? {
-        return currentViewController?.visibleViewController ?? super.childViewControllerForStatusBarStyle
+    override var childForStatusBarStyle: UIViewController? {
+        return currentViewController?.visibleViewController ?? super.childForStatusBarStyle
     }
     
     // MARK: UIViewController internal overridden methods
@@ -56,20 +56,20 @@ fileprivate extension RootViewController {
     
     fileprivate func performTransition(fromViewController: UINavigationController?, toViewController: UINavigationController) {
         currentViewController = toViewController
-        fromViewController?.willMove(toParentViewController: nil)
-        addChildViewController(toViewController)
+        fromViewController?.willMove(toParent: nil)
+        addChild(toViewController)
         if let fromViewController = fromViewController {
             transition(from: fromViewController,
                        to: toViewController,
                        duration: RootViewController.transitionDuration,
-                       options: .transitionCrossDissolve,
+                       options: UIView.AnimationOptions.transitionCrossDissolve,
                        animations: nil) { _ in
-                        fromViewController.removeFromParentViewController()
-                        toViewController.didMove(toParentViewController: self)
+                        fromViewController.removeFromParent()
+                        toViewController.didMove(toParent: self)
             }
         } else {
             view.addSubview(toViewController.view)
-            toViewController.didMove(toParentViewController: self)
+            toViewController.didMove(toParent: self)
         }
     }
 }
